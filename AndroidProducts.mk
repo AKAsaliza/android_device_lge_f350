@@ -14,9 +14,9 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_f300.mk
+    $(LOCAL_DIR)/lineage_f350.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_f300-user \
-    lineage_f300-userdebug \
-    lineage_f300-eng
+    lineage_f350-user \
+    lineage_f350-userdebug \
+    lineage_f350-eng

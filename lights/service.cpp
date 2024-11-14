@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "android.hardware.light@2.0-service.vu3"
+#define LOG_TAG "android.hardware.light@2.0-service.b1"
 
 #include <hidl/HidlTransportSupport.h>
 #include <utils/Errors.h>
@@ -30,12 +30,8 @@ using android::hardware::light::V2_0::ILight;
 using android::hardware::light::V2_0::implementation::Light;
 
 const static std::string kBacklightPath = "/sys/class/leds/lcd-backlight/brightness";
-const static std::string kPatternBlinkPath = "/sys/class/leds/R/device/led_blink";
-const static std::string kRedLedPath = "/sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/brightness";
-const static std::string kGreenLedPath = "/sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/brightness";
-const static std::string kBlueLedPath = "/sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/brightness";
-const static std::string kButtonBacklight1Path = "/sys/class/leds/button-backlight1/brightness";
-const static std::string kButtonBacklight2Path = "/sys/class/leds/button-backlight2/brightness";
+const static std::string kPatternBlinkPath = "/sys/class/lg_rgb_led/use_patterns/blink_patterns";
+const static std::string kRearSetting = "/sys/class/lg_rgb_led/use_patterns/rear_setting";
 
 int main() {
     std::ofstream backlight(kBacklightPath);
@@ -51,48 +47,16 @@ int main() {
         ALOGE("Failed to open %s (%d): %s", kPatternBlinkPath.c_str(), error, strerror(error));
         return -error;
     }
-    
-    std::ofstream redLed(kRedLedPath);
-    if (!redLed) {
+
+    std::ofstream rearSetting(kRearSetting);
+    if (!rearSetting) {
         int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kRedLedPath.c_str(), error, strerror(error));
-        return -error;
-    }
-    
-    std::ofstream greenLed(kGreenLedPath);
-    if (!greenLed) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kGreenLedPath.c_str(), error, strerror(error));
-        return -error;
-    }
-    
-    std::ofstream blueLed(kBlueLedPath);
-    if (!blueLed) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kBlueLedPath.c_str(), error, strerror(error));
-        return -error;
-    }
-    
-    std::ofstream buttonBacklight1(kButtonBacklight1Path);
-    if (!buttonBacklight1) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kButtonBacklight1Path.c_str(), error, strerror(error));
-        return -error;
-    }
-    
-    std::ofstream buttonBacklight2(kButtonBacklight2Path);
-    if (!buttonBacklight2) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kButtonBacklight2Path.c_str(), error, strerror(error));
+        ALOGE("Failed to open %s (%d): %s", kRearSetting.c_str(), error, strerror(error));
         return -error;
     }
 
     android::sp<ILight> service = new Light(std::move(backlight), std::move(blinkPattern),
-                                            std::move(redLed),
-                                            std::move(greenLed),
-                                            std::move(blueLed),
-                                            std::move(buttonBacklight1),
-                                            std::move(buttonBacklight2));
+                                            std::move(rearSetting));
 
     configureRpcThreadpool(1, true);
 

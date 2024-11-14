@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ifneq ($(filter g2 d800 d801 d802 d803 f300 f320 ls980 vs980,$(TARGET_DEVICE)),)
+ifneq ($(filter b1w d838 d837 f350 d837 f350k f350l f350s,$(TARGET_DEVICE)),)
 
 LOCAL_PATH:= $(call my-dir)
 

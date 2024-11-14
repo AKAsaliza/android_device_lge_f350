@@ -17,7 +17,7 @@
 #ifndef _BDROID_BUILDCFG_H
 #define _BDROID_BUILDCFG_H
 
-#define BTM_DEF_LOCAL_NAME   "LG Vu3"
+#define BTM_DEF_LOCAL_NAME   "LG G PRO 2"
 #define BTA_DISABLE_DELAY 1000 /* in milliseconds */
 
 /* Allow car handsfree setup to work (BMW and Mercedes) */

@@ -8,7 +8,7 @@
 
 set -e
 
-DEVICE=f300
+DEVICE=f350
 VENDOR=lge
 
 # Load extract_utils and do some sanity checks

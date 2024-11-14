@@ -20,12 +20,12 @@
 # Inherit from the common Open Source product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-PRODUCT_DEVICE := f300
-PRODUCT_NAME := full_f300
+PRODUCT_DEVICE := f350
+PRODUCT_NAME := full_f350
 PRODUCT_BRAND := LGE
-PRODUCT_MODEL := LG-F300
+PRODUCT_MODEL := LG-F350
 PRODUCT_MANUFACTURER := lge
 PRODUCT_RESTRICT_VENDOR_FILES := false
 
 # Inherit from hardware-specific part of the product configuration
-$(call inherit-product, device/lge/f300/device.mk)
+$(call inherit-product, device/lge/f350/device.mk)

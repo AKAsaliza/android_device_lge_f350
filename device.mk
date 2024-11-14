@@ -14,14 +14,10 @@
 # limitations under the License.
 #
 
-$(call inherit-product-if-exists, vendor/lge/f300/f300-vendor.mk)
+$(call inherit-product-if-exists, vendor/lge/f350/f350-vendor.mk)
 
 # NFC
-$(call inherit-product, device/lge/f300/nfc.mk)
-
-# Sensors
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/sensor_def_f300.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensor_def_variable.conf
+$(call inherit-product, device/lge/f350/nfc.mk)
     
 #
 # Copyright (C) 2015-2016 The CyanogenMod Project
@@ -80,12 +76,12 @@ PRODUCT_COPY_FILES += \
 
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
-PRODUCT_AAPT_PREF_CONFIG := xhdpi
+PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
 # Boot animation
 TARGET_BOOTANIMATION_HALF_RES := true
-TARGET_SCREEN_HEIGHT := 1280
-TARGET_SCREEN_WIDTH := 960
+TARGET_SCREEN_HEIGHT := 1920
+TARGET_SCREEN_WIDTH := 1080
 
 # APEX
 PRODUCT_COPY_FILES += \
@@ -191,14 +187,14 @@ PRODUCT_ENFORCE_VINTF_MANIFEST_OVERRIDE := true
 
 # Init
 PRODUCT_PACKAGES += \
-    fstab.vu3 \
-    init.vu3.rc \
-    init.vu3.power.rc \
-    init.vu3.usb.rc \
-    init.recovery.vu3.rc \
-    init.recovery.vu3.power.rc \
+    fstab.b1 \
+    init.b1.rc \
+    init.b1.power.rc \
+    init.b1.usb.rc \
+    init.recovery.b1.rc \
+    init.recovery.b1.power.rc \
     set_baseband.sh \
-    ueventd.vu3.rc
+    ueventd.b1.rc
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
@@ -220,7 +216,7 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service.vu3
+    android.hardware.light@2.0-service.b1
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
@@ -260,6 +256,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/nfc/libnfc-nci.conf:system/vendor/etc/libnfc-nci.conf \
+    $(LOCAL_PATH)/nfc/libnfc-nxp.conf:system/vendor/etc/libnfc-nxp.conf \
     $(LOCAL_PATH)/nfc/nfcee_access.xml:system/etc/nfcee_access.xml
 
 # Power
@@ -316,12 +313,11 @@ PRODUCT_PACKAGES += \
 
 # Vibrator
 PRODUCT_PACKAGES += \
-    android.hardware.vibrator@1.1-service.g2
+    android.hardware.vibrator@1.1-service.b1
 
 # Touchscreen
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/vendor/usr/keylayout/gpio-keys.kl \
-    $(LOCAL_PATH)/keylayout/lgps11-keypad.kl:system/vendor/usr/keylayout/lgps11-keypad.kl \
     $(LOCAL_PATH)/keylayout/touch_dev.idc:system/vendor/usr/idc/touch_dev.idc
 
 # Wifi
@@ -337,3 +333,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/bcmdhd.cal:system/vendor/etc/wifi/bcmdhd.cal \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES = \
+	ro.secure=0 \
+	ro.debuggable=1 \
+	persist.sys.usb.config=adb \
+	ro.adb.secure=0

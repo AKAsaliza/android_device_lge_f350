@@ -15,13 +15,13 @@
 # limitations under the License.
 #
 
-TARGET_KERNEL_CONFIG := lineageos_f300_defconfig
+TARGET_KERNEL_CONFIG := lineageos_f350_defconfig
 
-TARGET_OTA_ASSERT_DEVICE := galbi,f300,vu3
+TARGET_OTA_ASSERT_DEVICE := galbi,f350,b1,d838
 
-G2_DTS_TARGET := msm8974-vu3-kr
+G2_DTS_TARGET := msm8974-b1-kr
 
-TARGET_SPECIFIC_HEADER_PATH := device/lge/f300/include
+TARGET_SPECIFIC_HEADER_PATH := device/lge/f350/include
 
 # Architecture
 TARGET_ARCH := arm
@@ -34,7 +34,7 @@ TARGET_CPU_VARIANT := generic
 TARGET_CPU_VARIANT_RUNTIME := krait
 
 # Assertions
-TARGET_BOARD_INFO_FILE ?= device/lge/f300/board-info.txt
+TARGET_BOARD_INFO_FILE ?= device/lge/f350/board-info.txt
 
 # Binder API version
 TARGET_USES_64_BIT_BINDER := true
@@ -46,13 +46,13 @@ TARGET_NO_RADIOIMAGE := true
 
 # Kernel
 BOARD_CUSTOM_BOOTIMG := true
-BOARD_CUSTOM_BOOTIMG_MK := device/lge/f300/releasetools/mkbootimg.mk
+BOARD_CUSTOM_BOOTIMG_MK := device/lge/f350/releasetools/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := androidboot.hardware=vu3
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 user_debug=31 ehci-hcd.park=3 msm_rtb.filter=0x0 androidboot.hardware=b1
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x05000000 --tags_offset 0x00000100
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x00000100
 TARGET_KERNEL_SOURCE := kernel/lge/msm8974
 
 # Audio
@@ -68,8 +68,8 @@ USE_CUSTOM_AUDIO_POLICY := 1
 USE_XML_AUDIO_POLICY_CONF := 1
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/f300/bluetooth
-BOARD_CUSTOM_BT_CONFIG := device/lge/f300/bluetooth/vnd_vu3.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/f350/bluetooth
+BOARD_CUSTOM_BT_CONFIG := device/lge/f350/bluetooth/vnd_b1.txt
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
@@ -93,10 +93,10 @@ TARGET_ADDITIONAL_GRALLOC_10_USAGE_BITS := 0x02000000U
 TARGET_DISABLE_POSTRENDER_CLEANUP := true
 
 # Filesystem
-TARGET_FS_CONFIG_GEN := device/lge/f300/config.fs
+TARGET_FS_CONFIG_GEN := device/lge/f350/config.fs
 
 # HIDL
-DEVICE_MANIFEST_FILE := device/lge/f300/configs/manifest.xml
+DEVICE_MANIFEST_FILE := device/lge/f350/configs/manifest.xml
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
@@ -105,7 +105,7 @@ EXTENDED_FONT_FOOTPRINT := true
 TARGET_HAS_MEMFD_BACKPORT := true
 
 # Offmode Charging
-BOARD_HEALTHD_CUSTOM_CHARGER_RES := device/lge/f300/charger/images
+BOARD_HEALTHD_CUSTOM_CHARGER_RES := device/lge/f350/charger/images
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072
@@ -114,7 +114,7 @@ BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 838860800 # 830M
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432 # 33.6M
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216 # 16.7M
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2684354560 # 2.5G (actually 2.75, but leave room for model variation)
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3489660928 # 2.5G (actually 2.75, but leave room for model variation)
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 13725837312 # 12.8G (its much larger, but this is enough for now)
 BOARD_ROOT_EXTRA_FOLDERS := firmware mpt persist persist-lg sns
 
@@ -129,14 +129,14 @@ BOARD_USES_QC_TIME_SERVICES := true
 # Recovery
 BOOTLOADER_MESSAGE_OFFSET := 128
 BOARD_NO_SECURE_DISCARD := true
-TARGET_RECOVERY_FSTAB := device/lge/f300/rootdir/etc/fstab.vu3
+TARGET_RECOVERY_FSTAB := device/lge/f350/rootdir/etc/fstab.b1
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_g2
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
 # Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := device/lge/f300/releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := device/lge/f350/releasetools
 
 # SDClang
 TARGET_USE_SDCLANG := true
@@ -145,7 +145,7 @@ TARGET_USE_SDCLANG := true
 include device/qcom/sepolicy-legacy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
-    device/lge/f300/sepolicy
+    device/lge/f350/sepolicy
 
 # Shims
 TARGET_LD_SHIM_LIBS := /system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so \
@@ -166,3 +166,7 @@ BOARD_WLAN_DEVICE           := bcmdhd
 WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA     := "/system/vendor/firmware/fw_bcmdhd.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/system/vendor/firmware/fw_bcmdhd_apsta.bin"
+
+# NFC
+BOARD_NFC_CHIPSET := pn547
+BOARD_NFC_DEVICE := "/dev/pn547"

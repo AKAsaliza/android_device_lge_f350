@@ -1,26 +1,3 @@
-# ADSP
-etc/firmware/adsp.b00:vendor/firmware/adsp.b00
-etc/firmware/adsp.b01:vendor/firmware/adsp.b01
-etc/firmware/adsp.b02:vendor/firmware/adsp.b02
-etc/firmware/adsp.b03:vendor/firmware/adsp.b03
-etc/firmware/adsp.b04:vendor/firmware/adsp.b04
-etc/firmware/adsp.b05:vendor/firmware/adsp.b05
-etc/firmware/adsp.b06:vendor/firmware/adsp.b06
-etc/firmware/adsp.b07:vendor/firmware/adsp.b07
-etc/firmware/adsp.b08:vendor/firmware/adsp.b08
-etc/firmware/adsp.b09:vendor/firmware/adsp.b09
-etc/firmware/adsp.b10:vendor/firmware/adsp.b10
-etc/firmware/adsp.b11:vendor/firmware/adsp.b11
-etc/firmware/adsp.b12:vendor/firmware/adsp.b12
-etc/firmware/adsp.mdt:vendor/firmware/adsp.mdt
-
-# Bluetooth
-vendor/firmware/BCM4334B0_002.001.013.0271.0333.hcd
-
-# NFC
-vendor/firmware/BCM20791B5_002.006.013.0011.0098_Generic_I2C_NCD_Signed_configdata.ncd
-vendor/firmware/BCM20791B5_002.006.013.0011.0098_Generic_PreI2C_NCD_Signed_configdata.ncd
-
 # Common proprietary files - from D80230d build LRX22G, unless pinned
 
 # ADSP
@@ -51,12 +28,16 @@ vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
 vendor/lib/libaudioalsa.so
 
+# NFC
+vendor/firmware/libpn547_fw.so
+
 # Audio effects
 vendor/lib/soundfx/libqcbassboost.so
 vendor/lib/soundfx/libqcreverb.so
 vendor/lib/soundfx/libqcvirt.so
 
 # Bluetooth
+vendor/firmware/BCM4335C0_003.001.009.0055.0262.hcd
 vendor/lib/libaptX_encoder.so|b03772672144d4b750a5672c2922aded93bb0512
 
 # Camera
@@ -98,7 +79,7 @@ vendor/lib/libmmcamera_faceproc.so
 vendor/lib/libmmcamera_hdr_gb_lib.so
 vendor/lib/libmmcamera_hdr_lib.so
 vendor/lib/libmmcamera_imglib.so
-vendor/lib/libmmcamera_imx132.so
+vendor/lib/libmmcamera_imx208.so
 vendor/lib/libmmcamera_imx135.so
 vendor/lib/libmmcamera_sonyimx135_eeprom.so
 vendor/lib/libmmcamera_tintless_algo.so
@@ -138,30 +119,42 @@ vendor/lib/libactuator_rohm_bu64243gwz_camcorder.so
 vendor/lib/libactuator_rohm_bu64243gwz_camera.so
 
 # Camera chromatix
-lib/libchromatix_imx135_liveshot.so:vendor/lib/libchromatix_imx135_liveshot.so
-vendor/lib/libchromatix_imx132_common.so
-vendor/lib/libchromatix_imx132_default_video.so
-vendor/lib/libchromatix_imx132_mms_video.so
-vendor/lib/libchromatix_imx132_preview.so
-vendor/lib/libchromatix_imx132_vt.so
-vendor/lib/libchromatix_imx135_common.so
-vendor/lib/libchromatix_imx135_default_video.so
-vendor/lib/libchromatix_imx135_hfr_120.so
-vendor/lib/libchromatix_imx135_hfr_60.so
-vendor/lib/libchromatix_imx135_mms_video.so
-vendor/lib/libchromatix_imx135_preview.so
-vendor/lib/libchromatix_imx135_snapshot.so
-vendor/lib/libchromatix_imx135_uhd_video.so
-vendor/lib/libchromatix_imx135_video_dualrec.so
-vendor/lib/libchromatix_imx135_video_hdr.so
-vendor/lib/libchromatix_imx135_video_hd.so
-vendor/lib/libchromatix_imx135_video_qtr.so
+vendor/lib/libchromatix_imx135_30fps_common.so
+vendor/lib/libchromatix_imx135_30fps_default_video.so
+vendor/lib/libchromatix_imx135_30fps_fuji_common.so
+vendor/lib/libchromatix_imx135_30fps_fuji_default_video.so
+vendor/lib/libchromatix_imx135_30fps_fuji_hfr_120.so
+vendor/lib/libchromatix_imx135_30fps_fuji_hfr_60.so
+vendor/lib/libchromatix_imx135_30fps_fuji_liveshot.so
+vendor/lib/libchromatix_imx135_30fps_fuji_mms_video.so
+vendor/lib/libchromatix_imx135_30fps_fuji_preview.so
+vendor/lib/libchromatix_imx135_30fps_fuji_snapshot.so
+vendor/lib/libchromatix_imx135_30fps_fuji_uhd_video.so
+vendor/lib/libchromatix_imx135_30fps_fuji_video_dualrec.so
+vendor/lib/libchromatix_imx135_30fps_fuji_video_hdr.so
+vendor/lib/libchromatix_imx135_30fps_fuji_video_hd.so
+vendor/lib/libchromatix_imx135_30fps_fuji_video_qtr.so
+vendor/lib/libchromatix_imx135_30fps_hfr_120.so
+vendor/lib/libchromatix_imx135_30fps_hfr_60.so
+vendor/lib/libchromatix_imx135_30fps_liveshot.so
+vendor/lib/libchromatix_imx135_30fps_mms_video.so
+vendor/lib/libchromatix_imx135_30fps_preview.so
+vendor/lib/libchromatix_imx135_30fps_snapshot.so
+vendor/lib/libchromatix_imx135_30fps_uhd_video.so
+vendor/lib/libchromatix_imx135_30fps_video_dualrec.so
+vendor/lib/libchromatix_imx135_30fps_video_hdr.so
+vendor/lib/libchromatix_imx135_30fps_video_hd.so
+vendor/lib/libchromatix_imx135_30fps_video_qtr.so
+vendor/lib/libchromatix_imx208_common.so
+vendor/lib/libchromatix_imx208_default_video.so
+vendor/lib/libchromatix_imx208_mms_video.so
+vendor/lib/libchromatix_imx208_preview.so
+vendor/lib/libchromatix_imx208_vt.so
 
 # Camera firmware
 etc/firmware/cpp_firmware_v1_1_1.fw:vendor/firmware/cpp_firmware_v1_1_1.fw
 etc/firmware/cpp_firmware_v1_1_6.fw:vendor/firmware/cpp_firmware_v1_1_6.fw
 etc/firmware/cpp_firmware_v1_2_0.fw:vendor/firmware/cpp_firmware_v1_2_0.fw
-etc/firmware/cpp_firmware_v1_2_1.fw:vendor/firmware/cpp_firmware_v1_2_1.fw
 
 # DRM
 bin/qseecomd:vendor/bin/qseecomd

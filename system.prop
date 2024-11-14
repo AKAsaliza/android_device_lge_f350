@@ -1,7 +1,11 @@
 #
-# System.prop for F300 (LG Vu3)
+# System.prop for F350 (LG G PRO 2)
 #
 
 # RIL
 telephony.lteOnGsmDevice=1
 ro.telephony.default_network=9
+persist.service.adb.enable=1
+persist.service.debuggable=1
+persist.sys.usb.config=mtp,adb
+
