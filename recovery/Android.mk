@@ -5,7 +5,7 @@ LOCAL_C_INCLUDES := \
     bootable/recovery/updater/include \
     bootable/recovery/edify/include \
     bootable/recovery/otautil/include \
-    system/core/base/include
+    system/libbase/include
 
 LOCAL_SRC_FILES := recovery_updater.cpp
 LOCAL_MODULE := librecovery_updater_g2

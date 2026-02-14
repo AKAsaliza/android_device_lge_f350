@@ -92,10 +92,9 @@ PRODUCT_COPY_FILES += \
 
 # Audio
 PRODUCT_PACKAGES += \
-    android.hardware.audio@2.0-impl \
-    android.hardware.audio@2.0-service \
-    android.hardware.audio.effect@2.0-impl \
-    android.hardware.audio.effect@2.0-service \
+    android.hardware.audio.service \
+    android.hardware.audio@5.0-impl:32 \
+    android.hardware.audio.effect@5.0-impl:32 \
     audio.a2dp.default \
     audio.primary.msm8974 \
     audio.r_submix.default \
@@ -182,8 +181,8 @@ PRODUCT_COPY_FILES += \
 
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl \
-    android.hardware.health@2.1-service
+    android.hardware.health@2.0-impl-default \
+    android.hardware.health@2.0-service
 
 # HIDL
 PRODUCT_ENFORCE_VINTF_MANIFEST_OVERRIDE := true
@@ -194,8 +193,6 @@ PRODUCT_PACKAGES += \
     init.b1.rc \
     init.b1.power.rc \
     init.b1.usb.rc \
-    init.recovery.b1.rc \
-    init.recovery.b1.power.rc \
     set_baseband.sh \
     ueventd.b1.rc
 
@@ -277,6 +274,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     librecovery_updater_g2 \
     fastbootd
+	
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/etc/init.recovery.b1.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.b1.rc \
+    $(LOCAL_PATH)/rootdir/etc/init.b1.power.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.b1.power.rc
 
 # RenderScript HAL
 PRODUCT_PACKAGES += \
@@ -301,6 +302,9 @@ PRODUCT_SHIPPING_API_LEVEL := 17
 # Thermal
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine-8974.conf:system/vendor/etc/thermal-engine-8974.conf
+
+PRODUCT_PACKAGES += \
+    libshims_thermal
 
 # TimeKeep
 PRODUCT_PACKAGES += \

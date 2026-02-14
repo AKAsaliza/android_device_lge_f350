@@ -3,6 +3,8 @@ camera.4k2k.enable          u:object_r:camera_prop:s0
 persist.data.sensor_name    u:object_r:camera_prop:s0
 persist.data.rear.minfps    u:object_r:camera_prop:s0
 persist.data.front.minfps   u:object_r:camera_prop:s0
+init.svc.conn_init          u:object_r:init_service_status_prop:s0
+init.svc.recovery           u:object_r:init_service_status_prop:s0
 
 # Timekeep
 persist.vendor.timeadjust   u:object_r:vendor_timekeep_prop:s0

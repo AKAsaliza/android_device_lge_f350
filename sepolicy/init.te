@@ -1,4 +1,5 @@
 allow init debugfs:file write;
+allow init proc:file setattr;
 allow init sysfs_usb_storage_gadget:file { setattr };
 allow init sysfs_leds:lnk_file { read };
 allow init {

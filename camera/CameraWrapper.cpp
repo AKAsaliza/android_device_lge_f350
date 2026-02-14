@@ -339,6 +339,11 @@ static char *camera_fixup_setparams(int id, const char *settings)
     params.dump();
 #endif
 
+	const char *rotation = params.get("rotation");
+	if (!rotation || strcmp(rotation, "180") != 0) {
+    params.set("rotation", "180");
+}
+
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
 
@@ -836,7 +841,7 @@ static int camera_get_camera_info(int camera_id, struct camera_info *info)
      */
     ALOGI("Camera %d original orientation: %d", camera_id, info->orientation);
 
-    info->orientation = (info->orientation + 180) % 360;
+    /*info->orientation = (info->orientation + 180) % 360;*/
 
     ALOGI("Camera %d fixed orientation: %d", camera_id, info->orientation);
 

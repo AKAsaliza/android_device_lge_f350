@@ -94,6 +94,12 @@ void Light::setBacklight(const LightState& state) {
     std::lock_guard<std::mutex> lock(mLock);
     uint32_t brightness = rgbToBrightness(state);
     brightness = applyGamma(brightness);
+	
+    // Prevent backlight from being turned off completely
+    if(brightness == 0) {
+        brightness = LCD_BRIGHTNESS_MIN;
+    }
+	
     mBacklight << brightness << std::endl;
 }
 

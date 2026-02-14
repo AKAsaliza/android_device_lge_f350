@@ -29,7 +29,8 @@ import /vendor/etc/init/hw/init.b1.power.rc
 import /vendor/etc/init/hw/init.b1.usb.rc
 
 on early-init
-    mount debugfs debugfs /sys/kernel/debug
+    mount tmpfs cgroup_root /sys/fs/cgroup
+	mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
 
     symlink /dev/diag_lge /dev/diag
@@ -413,7 +414,7 @@ service netmgrd /vendor/bin/netmgrd
     group root wifi wakelock radio inet oem_2950
 
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
-    class late_start
+    class main
     user camera
     group camera system inet input graphics
 

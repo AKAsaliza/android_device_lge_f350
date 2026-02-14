@@ -1,3 +1,5 @@
+get_prop(mediaserver, vendor_default_prop)
+
 allow mediaserver persist_drm_file:dir search;
 allow mediaserver persist_drm_file:file rw_file_perms;
 allow mediaserver system_data_root_file:sock_file write;

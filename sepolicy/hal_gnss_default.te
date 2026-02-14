@@ -1,0 +1,2 @@
+get_prop(hal_gnss_default, system_prop)
+get_prop(hal_gnss_default, default_prop)

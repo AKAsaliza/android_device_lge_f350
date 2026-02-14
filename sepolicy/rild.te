@@ -1,0 +1,5 @@
+get_prop(rild, default_prop)
+get_prop(rild, vendor_rild_libpath_prop)
+
+allow rild radio_core_data_file:file { create_file_perms open rw_file_perms getattr ioctl lock unlink };
+allow rild radio_core_data_file:dir { search open remove_name add_name rw_dir_perms };

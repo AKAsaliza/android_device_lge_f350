@@ -44,6 +44,9 @@ TARGET_BOOTLOADER_BOARD_NAME := galbi
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
+# Build Magics
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+
 # Kernel
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := device/lge/f350/releasetools/mkbootimg.mk
@@ -55,6 +58,7 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x00000100
 TARGET_KERNEL_SOURCE := kernel/lge/msm8974
+TARGET_KERNEL_CLANG_COMPILE := false
 
 # Audio
 AUDIO_FEATURE_ENABLED_FLUENCE := true
@@ -92,6 +96,7 @@ MAX_EGL_CACHE_SIZE := 2048*1024
 TARGET_USES_ION := true
 TARGET_ADDITIONAL_GRALLOC_10_USAGE_BITS := 0x02000000U
 TARGET_DISABLE_POSTRENDER_CLEANUP := true
+TARGET_SCREEN_DENSITY := 460
 
 # Filesystem
 TARGET_FS_CONFIG_GEN := device/lge/f350/config.fs
@@ -145,6 +150,7 @@ TARGET_USE_SDCLANG := true
 # SELinux policies
 include device/qcom/sepolicy-legacy/sepolicy.mk
 
+SELINUX_IGNORE_NEVERALLOWS := true
 BOARD_SEPOLICY_DIRS += \
     device/lge/f350/sepolicy
 
@@ -155,7 +161,8 @@ TARGET_LD_SHIM_LIBS := /system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat
     /system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera_parameters.so \
     /system/vendor/bin/mpdecision|libshim_atomic.so \
     /system/vendor/lib/libperipheral_client.so|libshim_binder.so \
-    /system/vendor/lib/libril-qc-qmi-1.so|libaudioclient_shim.so
+    /system/vendor/lib/libril-qc-qmi-1.so|libaudioclient_shim.so \
+    /system/vendor/bin/thermal-engine|libshims_thermal.so
 
 # Wi-Fi
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211

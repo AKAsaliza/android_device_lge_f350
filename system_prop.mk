@@ -17,6 +17,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.audio.fluence.voicerec=false \
     ro.vendor.audio.sdk.fluencetype=fluence
 
+# Blur
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.surface_flinger.supports_background_blur=0
+
 # Bluetooth
 PRODUCT_PROPERTY_OVERRIDES += \
     bluetooth.chip.vendor=brcm \
@@ -41,10 +45,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.hwc.mdpcomp.enable=true \
     ro.opengles.version=196608 \
-    ro.sf.lcd_density=480 \
     debug.hwui.use_buffer_age=false \
     debug.sf.disable_backpressure=1 \
-    debug.sf.latch_unsignaled=1
+    debug.renderengine.backend=threaded \
+    vendor.display.disable_rotator_downscale=1 \
+    vendor.display.disable_scaler=0
 
 # DRM
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -96,7 +101,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.data.netmgrd.qos.enable=false \
     persist.data.qmi.adb_logmask=0 \
     persist.qcril.disable_retry=true \
-    rild.libpath=/vendor/lib/libril-qc-qmi-1.so \
+    vendor.rild.libpath=/vendor/lib/libril-qc-qmi-1.so \
     ro.use_data_netmgrd=true
 
 # Radio
@@ -153,3 +158,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.data.large_tcp_window_size=true \
     wifi.interface=wlan0
+
+# BPF
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.kernel.ebpf.supported=false
+	

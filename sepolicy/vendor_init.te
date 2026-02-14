@@ -1,5 +1,13 @@
+get_prop(vendor_init, apexd_prop)
+set_prop(vendor_init, default_prop)
+get_prop(vendor_init, system_prop)
+set_prop(vendor_init, system_prop)
+get_prop(vendor_init, init_service_status_prop)
+get_prop(vendor_init, baseband_prop)
+
 allow vendor_init bluetooth_data_file:file { setattr };
 
 domain_auto_trans(vendor_init, vendor_toolbox_exec, vendor_init)
 allow vendor_init unlabeled:{ dir file } { getattr relabelfrom };
 allow vendor_init unlabeled:dir search;
+allow vendor_init radio_core_data_file:dir { getattr setattr };

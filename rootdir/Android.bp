@@ -1,0 +1,39 @@
+sh_binary {
+    name: "set_baseband.sh",
+    src: "bin/set_baseband.sh",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "fstab.b1",
+    src: "etc/fstab.b1",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.b1.rc",
+    src: "etc/init.b1.rc",
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.b1.power.rc",
+    src: "etc/init.b1.power.rc",
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.b1.usb.rc",
+    src: "etc/init.b1.usb.rc",
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "ueventd.b1.rc",
+    filename: "ueventd.rc",
+    src: "etc/ueventd.b1.rc",
+    vendor: true,
+}
