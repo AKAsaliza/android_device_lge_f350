@@ -17,6 +17,9 @@
 #define LOG_TAG "android.hardware.light@2.0-service.b1"
 
 #include <hidl/HidlTransportSupport.h>
+#ifdef ARCH_ARM_32
+#include <hwbinder/ProcessState.h>
+#endif
 #include <utils/Errors.h>
 
 #include "Light.h"
@@ -31,9 +34,11 @@ using android::hardware::light::V2_0::implementation::Light;
 
 const static std::string kBacklightPath = "/sys/class/leds/lcd-backlight/brightness";
 const static std::string kPatternBlinkPath = "/sys/class/lg_rgb_led/use_patterns/blink_patterns";
-const static std::string kRearSetting = "/sys/class/lg_rgb_led/use_patterns/rear_setting";
 
 int main() {
+#ifdef ARCH_ARM_32
+    android::hardware::ProcessState::initWithMmapSize((size_t)(32768));
+#endif
     std::ofstream backlight(kBacklightPath);
     if (!backlight) {
         int error = errno;
@@ -48,15 +53,7 @@ int main() {
         return -error;
     }
 
-    std::ofstream rearSetting(kRearSetting);
-    if (!rearSetting) {
-        int error = errno;
-        ALOGE("Failed to open %s (%d): %s", kRearSetting.c_str(), error, strerror(error));
-        return -error;
-    }
-
-    android::sp<ILight> service = new Light(std::move(backlight), std::move(blinkPattern),
-                                            std::move(rearSetting));
+    android::sp<ILight> service = new Light(std::move(backlight), std::move(blinkPattern));
 
     configureRpcThreadpool(1, true);
 

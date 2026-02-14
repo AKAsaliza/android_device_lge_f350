@@ -18,11 +18,9 @@
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/vendor/etc/permissions/android.hardware.nfc.hce.xml
 
-# NFC
+# NFC packages
 PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.0-impl-bcm \
-    nfc_nci.bcm2079x.default \
     NfcNci
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/nfc/libnfc-brcm-20791b05.conf:system/vendor/etc/libnfc-brcm-20791b05.conf
+    vendor/lge/f350/proprietary/vendor/lib/hw/nfc_nci.msm8974.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/nfc_nci.msm8974.so

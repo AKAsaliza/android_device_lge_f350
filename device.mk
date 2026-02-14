@@ -14,11 +14,12 @@
 # limitations under the License.
 #
 
+
 $(call inherit-product-if-exists, vendor/lge/f350/f350-vendor.mk)
 
 # NFC
 $(call inherit-product, device/lge/f350/nfc.mk)
-    
+
 #
 # Copyright (C) 2015-2016 The CyanogenMod Project
 #               2017-2018 The LineageOS Project
@@ -35,7 +36,6 @@ $(call inherit-product, device/lge/f350/nfc.mk)
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
@@ -55,6 +55,9 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.consumerir.xml:system/vendor/etc/permissions/android.hardware.consumerir.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/vendor/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/vendor/etc/permissions/android.hardware.nfc.xml \
+    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/vendor/etc/permissions/android.hardware.sensor.accelerometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/vendor/etc/permissions/android.hardware.sensor.barometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/vendor/etc/permissions/android.hardware.compass.xml \
     frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/vendor/etc/permissions/android.hardware.sensor.gyroscope.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/vendor/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/vendor/etc/permissions/android.hardware.sensor.proximity.xml \
@@ -250,14 +253,14 @@ PRODUCT_COPY_FILES += \
 
 # NFC
 PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.0-service \
-    Tag \
-    com.android.nfc_extras
+    android.hardware.nfc@1.0-impl \
+    com.android.nfc_extras \
+    Tag
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/nfc/libnfc-nci.conf:system/vendor/etc/libnfc-nci.conf \
-    $(LOCAL_PATH)/nfc/libnfc-nxp.conf:system/vendor/etc/libnfc-nxp.conf \
-    $(LOCAL_PATH)/nfc/nfcee_access.xml:system/etc/nfcee_access.xml
+    $(LOCAL_PATH)/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
+    $(LOCAL_PATH)/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf \
+    $(LOCAL_PATH)/nfc/nfcee_access.xml:$(TARGET_COPY_OUT_VENDOR)/etc/nfcee_access.xml
 
 # Power
 PRODUCT_PACKAGES += \
@@ -286,7 +289,8 @@ PRODUCT_COPY_FILES += \
 
 # Sensors
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/sensor_def_common.conf:system/vendor/etc/sensor_def_common.conf
+    $(LOCAL_PATH)/sensors/sensor_def_common.conf:system/vendor/etc/sensor_def_common.conf \
+    $(LOCAL_PATH)/sensors/sensor_def_f350.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensor_def_variable.conf
 
 PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-impl
@@ -333,9 +337,3 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/bcmdhd.cal:system/vendor/etc/wifi/bcmdhd.cal \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
-
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES = \
-	ro.secure=0 \
-	ro.debuggable=1 \
-	persist.sys.usb.config=adb \
-	ro.adb.secure=0

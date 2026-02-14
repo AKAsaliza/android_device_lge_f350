@@ -31,8 +31,7 @@ namespace V2_0 {
 namespace implementation {
 
 struct Light : public ILight {
-    Light(std::ofstream&& backlight, std::ofstream&& blinkPattern,
-          std::ofstream&& rearSetting);
+    Light(std::ofstream&& backlight, std::ofstream&& blinkPattern);
 
     // Methods from ::android::hardware::light::V2_0::ILight follow.
     Return<Status> setLight(Type type, const LightState& state)  override;
@@ -45,11 +44,9 @@ private:
     void setNotificationLight(const LightState& state);
     void setSpeakerBatteryLightLocked();
     void setSpeakerLightLocked(const LightState& state);
-    void setRearLightLocked(const LightState& state);
 
     std::ofstream mBacklight;
     std::ofstream mBlinkPattern;
-    std::ofstream mRearSetting;
 
     LightState mAttentionState;
     LightState mBatteryState;

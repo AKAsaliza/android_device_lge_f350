@@ -48,7 +48,8 @@ TARGET_NO_RADIOIMAGE := true
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := device/lge/f350/releasetools/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 user_debug=31 ehci-hcd.park=3 msm_rtb.filter=0x0 androidboot.hardware=b1
+BOARD_KERNEL_CMDLINE := androidboot.hardware=b1
+#BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
@@ -114,12 +115,12 @@ BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 838860800 # 830M
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432 # 33.6M
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216 # 16.7M
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3489660928 # 2.5G (actually 2.75, but leave room for model variation)
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 13725837312 # 12.8G (its much larger, but this is enough for now)
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3489660928 # 3.5G
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 13725837312 # 13.8G
 BOARD_ROOT_EXTRA_FOLDERS := firmware mpt persist persist-lg sns
 
 # Power
-TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/input/lge_touch/touch_gesture"
+TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/input/lge_touch/dt2w_enable"
 TARGET_USES_INTERACTION_BOOST := true
 
 # Qualcomm support
@@ -170,3 +171,4 @@ WIFI_DRIVER_FW_PATH_AP      := "/system/vendor/firmware/fw_bcmdhd_apsta.bin"
 # NFC
 BOARD_NFC_CHIPSET := pn547
 BOARD_NFC_DEVICE := "/dev/pn547"
+BOARD_NFC_HAL_SUFFIX := msm8974

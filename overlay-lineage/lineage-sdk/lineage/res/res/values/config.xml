@@ -42,7 +42,7 @@
             64 - Volume rocker
          For example, a device with Home, Back and Menu keys would set this
          config to 7. -->
-    <integer name="config_deviceHardwareKeys">71</integer>
+    <integer name="config_deviceHardwareKeys">64</integer>
 
     <!-- Hardware keys present on the device with the ability to wake, stored as a bit field.
          This integer should equal the sum of the corresponding value for each
@@ -56,7 +56,7 @@
             64 - Volume rocker
          For example, a device with Home, Back and Menu keys would set this
          config to 7. -->
-    <integer name="config_deviceHardwareWakeKeys">65</integer>
+    <integer name="config_deviceHardwareWakeKeys">64</integer>
 
     <!-- All the capabilities of the LEDs on this device, stored as a bit field.
          This integer should equal the sum of the corresponding value for each
@@ -83,13 +83,8 @@
     <!-- Indicate whether encryption causes significant performances loss.
          This MUST NOT be set to true on devices produced in 2016 or later -->
     <bool name="config_trustLegacyEncryption">true</bool>
-    
-    <!-- Button backlight control. Possible values are:
-            0 - Not supported
-            1 - Supported, but only on/off mode
-            2 - Supported with variable brightness control
-    -->
-    <integer name="config_deviceSupportsButtonBrightnessControl">1</integer>
-    <dimen name="config_buttonBrightnessSettingDefaultFloat">1.0</dimen>
+
+    <!-- Disable LiveDisplay by default -->
+    <integer name="config_defaultLiveDisplayMode">0</integer>
 
 </resources>

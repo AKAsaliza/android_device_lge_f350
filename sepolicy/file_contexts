@@ -6,6 +6,9 @@
 /sys/devices/platform/bluetooth_rfkill/rfkill/rfkill0/state u:object_r:sysfs_bluetooth_writable:s0
 /dev/btlock                                         u:object_r:btlock_file:s0
 
+# Diag
+/dev/diag_lge                                       u:object_r:diag_device:s0
+
 # cgroup
 /dev/cpuset(/.*)?                                   u:object_r:cgroup:s0
 /dev/stune(/.*)?                                    u:object_r:cgroup:s0
@@ -30,15 +33,19 @@
 /(vendor|system/vendor)/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.software			u:object_r:hal_gatekeeper_default_exec:s0
 
 # Lights
-/(vendor|system/vendor)/bin/hw/android\.hardware\.light@2\.0-service\.vu3            u:object_r:hal_light_default_exec:s0
-/sys/devices/mdp(.*)/qcom,mdss_fb_primary(.*)/leds(/.*)?                             u:object_r:sysfs_leds:s0
-/sys/devices/mdp(.*)/qcom,mdss_fb_primary(.*)/leds/lcd-backlight/max_brightness      u:object_r:sysfs_leds:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.light@2\.0-service\.b1          	u:object_r:hal_light_default_exec:s0
+/sys/devices/mdp.0/qcom,mdss_fb_primary.178/leds(/.*)?								u:object_r:sysfs_leds:s0
+/sys/devices/mdp.0/qcom,mdss_fb_primary.178/leds/lcd-backlight(/.*)?				u:object_r:sysfs_leds:s0
 /sys/devices/f9967000.i2c/i2c-0/0-0032/led_blink                                     u:object_r:sysfs_leds:s0
 /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/brightness                             u:object_r:sysfs_leds:s0
 /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/brightness                             u:object_r:sysfs_leds:s0
 /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/brightness                             u:object_r:sysfs_leds:s0
-/sys/class/leds/button-backlight1/brightness                                         u:object_r:sysfs_leds:s0
-/sys/class/leds/button-backlight2/brightness                                         u:object_r:sysfs_leds:s0
+/sys/devices/virtual/lg_rgb_led/use_patterns(/.*)?                       			u:object_r:sysfs_leds:s0
+/sys/devices/virtual/lg_rgb_led/use_patterns/blink_patterns                          u:object_r:sysfs_leds:s0
+/sys/devices/virtual/lg_rgb_led/use_patterns/setting                         		u:object_r:sysfs_leds:s0
+
+# Modem
+/dev/block/platform/msm_sdcc\.1/by-name/modem                            			u:object_r:modem_block_device:s0
 
 # MPdecision
 /data/system/default_values                         u:object_r:mpctl_data_file:s0
@@ -50,7 +57,7 @@
 /dev/block/platform/msm_sdcc\.1/by-name/mpt         u:object_r:mpt_block_device:s0
 
 # NFC
-/dev/bcm2079x                                       u:object_r:nfc_device:s0
+/dev/pn547     		                                  u:object_r:nfc_device:s0
 
 # Persist
 /persist-lg(/.*)?                                   u:object_r:persist_drm_file:s0
@@ -69,10 +76,10 @@
 /sys/devices/virtual/net(/.*)?                     u:object_r:sysfs_net:s0
 
 # sysfs - power_supply
-/sys/devices/qpnp-charger-14/power_supply/battery(/.*)?                    u:object_r:sysfs_batteryinfo:s0
-/sys/devices/qpnp-charger-14/power_supply/ac(/.*)?                         u:object_r:sysfs_batteryinfo:s0
-/sys/devices/qpnp-charger-14/power_supply/qpnp-dc(/.*)?                    u:object_r:sysfs_batteryinfo:s0
-/sys/devices/qpnp-bms-10/power_supply/bms(/.*)?                            u:object_r:sysfs_batteryinfo:s0
+/sys/devices/f9923000\.i2c/i2c-1/1-006b/power_supply/battery(/.*)?       u:object_r:sysfs_batteryinfo:s0
+/sys/devices/f9923000\.i2c/i2c-1/1-006b/power_supply/ac(/.*)?            u:object_r:sysfs_batteryinfo:s0
+/sys/devices/currentnow_device-[a-z0-9]+/power_supply/cn(/.*)?           u:object_r:sysfs_batteryinfo:s0
+/sys/devices/unified_wlc\.[0-9]+/power_supply/wireless(/.*)?             u:object_r:sysfs_batteryinfo:s0
 /sys/devices/platform/lge_battery_id\.[0-9]+/power_supply/battery_id(/.*)? u:object_r:sysfs_batteryinfo:s0
 
 # TimeKeep
@@ -82,7 +89,7 @@
 # Vibrator
 /sys/devices/virtual/input/lge_touch(/.*)?          u:object_r:sysfs_touchpanel:s0
 /sys/devices/platform/tspdrv/nforce_timed           u:object_r:sysfs_vibrator:s0
-/(vendor|system/vendor)/bin/hw/android\.hardware\.vibrator@1\.1-service\.g2 u:object_r:hal_vibrator_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.vibrator@1\.1-service\.b1 u:object_r:hal_vibrator_default_exec:s0
 
 # Wifi
 /sys/module/bcmdhd/parameters/firmware_path u:object_r:sysfs_wlan_fwpath:s0

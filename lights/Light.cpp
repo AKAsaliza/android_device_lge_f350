@@ -7,15 +7,6 @@
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
- /*
- * Copyright (C) 2017 The LineageOS Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,9 +23,6 @@
 #define LCD_BRIGHTNESS_MIN 20 // Matches config_screenBrightnessSettingMinimum
 #define LCD_BRIGHTNESS_MAX 255
 #define LCD_BRIGHTNESS_DELTA (LCD_BRIGHTNESS_MAX - LCD_BRIGHTNESS_MIN)
-
-#define KPDBL_ID_OFF  "0"
-#define KPDBL_ID_NOTI "6"
 
 namespace {
 using android::hardware::light::V2_0::LightState;
@@ -64,11 +52,9 @@ namespace light {
 namespace V2_0 {
 namespace implementation {
 
-Light::Light(std::ofstream&& backlight, std::ofstream&& blinkPattern,
-             std::ofstream&& rearSetting) :
+Light::Light(std::ofstream&& backlight, std::ofstream&& blinkPattern) :
     mBacklight(std::move(backlight)),
-    mBlinkPattern(std::move(blinkPattern)),
-    mRearSetting(std::move(rearSetting)) {
+    mBlinkPattern(std::move(blinkPattern)) {
     auto attnFn(std::bind(&Light::setAttentionLight, this, std::placeholders::_1));
     auto backlightFn(std::bind(&Light::setBacklight, this, std::placeholders::_1));
     auto batteryFn(std::bind(&Light::setBatteryLight, this, std::placeholders::_1));
@@ -121,7 +107,6 @@ void Light::setNotificationLight(const LightState& state) {
     std::lock_guard<std::mutex> lock(mLock);
     mNotificationState = state;
     setSpeakerBatteryLightLocked();
-    setRearLightLocked(state);
 }
 
 void Light::setSpeakerBatteryLightLocked() {
@@ -156,18 +141,11 @@ void Light::setSpeakerLightLocked(const LightState& state) {
 
     color = state.color & 0x00ffffff;
 
+    ALOGD("%s: inColor=0x%08x delay_on=%d, delay_off=%d", __func__, color,
+          onMS, offMS);
+
     sprintf(blink_pattern, "0x%x,%d,%d", color, onMS, offMS);
     mBlinkPattern << blink_pattern << std::endl;
-}
-
-void Light::setRearLightLocked(const LightState& state) {
-    char blink_pattern[PAGE_SIZE];
-
-    if(isLit(state) && state.flashMode == Flash::TIMED){
-        mRearSetting << KPDBL_ID_NOTI << std::endl;
-    } else  {
-        mRearSetting << KPDBL_ID_OFF << std::endl;
-    }
 }
 
 }  // namespace implementation

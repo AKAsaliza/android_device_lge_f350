@@ -19,12 +19,30 @@ namespace android {
 class CameraParameters
 {
 public:
-    static const char BURST_SHOT_OFF[];
-    static const char BURST_SHOT_ON[];
-    static const char FOCUS_MODE_MANUAL_POSITION[];
-    static const char KEY_BURST_SHOT[];
-    static const char KEY_FOCUS_MODE_OBJECT_TRACKING[];
-    static const char WHITE_BALANCE_MANUAL_CCT[];
+    static const char AUDIO_ZOOM_OFF[]; \
+    static const char AUDIO_ZOOM_ON[]; \
+    static const char BEAUTY_SHOT_OFF[]; \
+    static const char BEAUTY_SHOT_ON[]; \
+    static const char BURST_SHOT_OFF[]; \
+    static const char BURST_SHOT_ON[]; \
+    static const char KEY_AUDIO_ZOOM[]; \
+    static const char KEY_AUDIO_ZOOM_SUPPORTED[]; \
+    static const char KEY_BEAUTY_SHOT[]; \
+    static const char KEY_BEAUTY_SHOT_SUPPORTED[]; \
+    static const char KEY_BURST_SHOT[]; \
+    static const char KEY_BURST_SHOT_SUPPORTED[]; \
+    static const char KEY_FOCUS_MODE_OBJECT_TRACKING[]; \
+    static const char KEY_FOCUS_MODE_OBJECT_TRACKING_SUPPORTED[]; \
+    static const char KEY_ISO_MODE[]; \
+    static const char KEY_LGE_CAMERA[]; \
+    static const char KEY_LGE_ISO_MODE[]; \
+    static const char KEY_SUPPORTED_ISO_MODES[]; \
+    static const char KEY_VIDEO_WDR[]; \
+    static const char KEY_VIDEO_WDR_SUPPORTED[]; \
+    static const char VIDEO_WDR_OFF[]; \
+    static const char VIDEO_WDR_ON[]; \
+    static const char OBJECT_TRACKING_ON[]; \
+    static const char OBJECT_TRACKING_OFF[]; \
 };
 
 }; // namespace android

@@ -31,6 +31,11 @@ import /vendor/etc/init/hw/init.b1.usb.rc
 on early-init
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
+
+    symlink /dev/diag_lge /dev/diag
+
+    mkdir /sys 0771 system system
+    mkdir /firmware 0771 system system
     chown system system /sys/kernel/debug/kgsl/proc
 
     symlink /data/tombstones /tombstones
@@ -170,22 +175,73 @@ on boot
     chmod 0644 /proc/cmdline
 
     # bluetooth
+    chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chown bluetooth bluetooth /proc/bluetooth/sleep/btwake
     chown bluetooth bluetooth /proc/bluetooth/sleep/proto
-    chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
     chown bluetooth bluetooth /proc/bluetooth/sleep/lpm
+    chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
+    chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_lpm
+    chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_btwrite
+    chown system system /sys/module/sco/parameters/disable_esco
+    chown bluetooth bluetooth /sys/module/hci_smd/parameters/hcismd_set
+    chown system system /sys/module/radio_iris_transport/parameters/fmsmd_set
+    chmod 0660 /sys/module/bluetooth_power/parameters/power
+    chmod 0660 /sys/module/hci_smd/parameters/hcismd_set
+    chmod 0660 /sys/module/radio_iris_transport/parameters/fmsmd_set
     chmod 0660 /sys/class/rfkill/rfkill0/state
     chmod 0660 /proc/bluetooth/sleep/btwake
     chmod 0660 /proc/bluetooth/sleep/proto
     chmod 0644 /proc/bluetooth/sleep/btwrite
     chmod 0644 /proc/bluetooth/sleep/lpm
+    chown bluetooth bluetooth /dev/ttyHS99
+    chmod 0660 /sys/module/hci_uart/parameters/ath_lpm
+    chmod 0660 /sys/module/hci_uart/parameters/ath_btwrite
+    chmod 0660 /dev/ttyHS99
+    chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
+    chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
+    
+	# For NFC
+    chmod 0600 /dev/pn547
+    chown nfc nfc /dev/pn547
+    symlink /dev/pn547 /dev/pn544
 
     # vibrator
     chown system system /sys/class/timed_output/vibrator/amp
     chmod 0660 /sys/class/timed_output/vibrator/amp
 
+    # led
+    chown system system /sys/class/leds/red/brightness
+    chown system system /sys/class/leds/green/brightness
+    chown system system /sys/class/leds/blue/brightness
+    chown system system /sys/class/lg_rgb_led/use_patterns/blink_patterns
+    chown system system /sys/class/leds/button-backlight1/brightness
+    chown system system /sys/class/leds/button-backlight2/brightness
+    chmod 0660 /sys/class/leds/button-backlight1/brightness
+    chmod 0660 /sys/class/leds/button-backlight2/brightness
+
+    # emotional led
+    chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/blink_patterns
+    chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/blink_patterns
+    chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/input_patterns
+    chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/input_patterns
+    chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/onoff_patterns
+    chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/onoff_patterns
+    chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/setting
+    chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/setting
+    write /sys/devices/virtual/lg_rgb_led/use_patterns/setting 0
+
+    # lp5521
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_current_index
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_pattern
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_blink
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/brightness
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/brightness
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/brightness
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/led_current
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/led_current
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/led_current
     # Assign TCP buffer thresholds to be ceiling value of technology maximums
     # Increased technology maximums should be reflected here.
     write /proc/sys/net/core/rmem_max  2097152
@@ -198,7 +254,6 @@ on boot
     mkdir /dev/video
     symlink /dev/video32 /dev/video/venus_dec
     symlink /dev/video33 /dev/video/venus_enc
-
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
     # For bridgemgr daemon to inform the USB driver of the correct transport
@@ -213,8 +268,22 @@ on boot
     write /proc/sys/net/ipv6/conf/rmnet5/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet6/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet7/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_sdio0/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_sdio1/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_sdio2/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_sdio3/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_sdio4/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_sdio5/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_sdio6/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_sdio7/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb0/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_usb1/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_usb2/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra 2
 
+    # setup permissions for IrRC  UART
+    chown system system /dev/ttyHSL1
+    chmod 660 /dev/ttyHSL1
     # To prevent out of order acknowledgements from making
     # connection tracking to treat them as not belonging to
     # the connection they belong to.
@@ -236,6 +305,8 @@ on boot
 
     chown root system /proc/net/ip_conntrack
 
+    # Enable DEBUG_SUSPEND, DEBUG_EXIT_SUSPEND, and DEBUG_WAKEUP
+    write /sys/module/wakelock/parameters/debug_mask 7
     chown system wifi /sys/module/bcmdhd/parameters/firmware_path
     chmod 0640 /sys/module/bcmdhd/parameters/firmware_path
 
@@ -247,14 +318,49 @@ on boot
     chown root system /sys/devices/platform/tspdrv/nforce_timed
     chmod 0664 /sys/devices/platform/tspdrv/nforce_timed
 
+    # Begin keyguard file for ghost finger(jasper.kim@lge.com)
+    chown system system /sys/devices/virtual/input/lge_touch/lpwg_data
+    chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_data
+
     # Tap to wake
-    chown system radio /sys/devices/virtual/input/lge_touch/touch_gesture
-    chmod 0664 /sys/devices/virtual/input/lge_touch/touch_gesture
+    chown system radio /sys/devices/virtual/input/lge_touch/dt2w_enable
+    chmod 0664 /sys/devices/virtual/input/lge_touch/dt2w_enable
+    chown system radio /sys/devices/virtual/input/lge_touch/lpwg_notify
+    chmod 0664 /sys/devices/virtual/input/lge_touch/lpwg_notify
+    chown system radio /sys/devices/virtual/input/lge_touch/keyguard
+    chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
+	chown system system /sys/devices/virtual/input/lge_touch/incoming_call
+    chown system system /sys/devices/virtual/input/lge_touch/touch_gesture
+	chmod 664 /sys/devices/virtual/input/lge_touch/touch_gesture
+    chown system system /sys/devices/virtual/input/lge_touch/ime_status
+    chown system system /sys/devices/virtual/input/lge_touch/mfts
+    chmod 640 /sys/devices/virtual/input/lge_touch/mfts
+    chown system system /sys/devices/virtual/input/lge_touch/mfts_fw
+    chmod 640 /sys/devices/virtual/input/lge_touch/mfts_fw
+    chown system system /sys/devices/virtual/input/lge_touch/mfts_fw_ver
+    chmod 640 /sys/devices/virtual/input/lge_touch/mfts_fw_ver
+
+    # LGE_CHANGE_S, 2014-11-21, jaeku.yu@lge.com, For B1(Atmel) Touch feature
+    chmod 664 /sys/devices/virtual/input/lge_touch/touch_gesture_character
+    chown system system /sys/devices/virtual/input/lge_touch/touch_gesture_character
+    chmod 664 /sys/devices/virtual/input/lge_touch/touch_gesture_volume
+    chown system system /sys/devices/virtual/input/lge_touch/touch_gesture_volume
+    chmod 664 /sys/devices/virtual/input/lge_touch/quick_cover_status
+    chown system system /sys/devices/virtual/input/lge_touch/quick_cover_status
+    chmod 664 /sys/devices/virtual/input/lge_touch/update_fw
+    chown system system /sys/devices/virtual/input/lge_touch/update_fw
+    chmod 664 /sys/devices/virtual/input/lge_touch/update_cfg
+    chown system system /sys/devices/virtual/input/lge_touch/update_cfg
+    chmod 664 /sys/devices/f9924000.i2c/i2c-2/2-004a/mem_access
+    chown system system /sys/devices/f9924000.i2c/i2c-2/2-004a/mem_access
+    chmod 664 /sys/devices/virtual/input/lge_touch/use_quick_window
+    chown system system /sys/devices/virtual/input/lge_touch/use_quick_window
 
     # SubSystem Restart
     write /sys/bus/msm_subsys/devices/subsys0/restart_level "related"
     write /sys/bus/msm_subsys/devices/subsys1/restart_level "related"
     write /sys/bus/msm_subsys/devices/subsys2/restart_level "related"
+    write /sys/bus/msm_subsys/devices/subsys3/restart_level "related"
 
     # Adaptive LMK
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
@@ -307,7 +413,7 @@ service netmgrd /vendor/bin/netmgrd
     group root wifi wakelock radio inet oem_2950
 
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
-    class main
+    class late_start
     user camera
     group camera system inet input graphics
 
@@ -326,10 +432,16 @@ service rmt_storage /vendor/bin/rmt_storage
     user root
     group system wakelock
 
+# restart qcamerasvr when restarting mediaserver and servicemanager
+on property:init.svc.media=restarting
+    restart qcamerasvr
+on property:init.svc.servicemanager=restarting
+    restart qcamerasvr
+
 service sensors /vendor/bin/sensors.qcom
     class late_start
     user root
-    group root wakelock
+    group root wakelock net_raw
 
 service set_baseband /vendor/bin/set_baseband.sh
     class late_start

@@ -11,5 +11,12 @@ cc_binary {
         "libutils",
         "android.hardware.light@2.0",
     ],
-    proprietary: true,
+    arch: {
+        arm: {
+            cflags: [
+                "-DARCH_ARM_32"
+            ],
+        },
+    },
+    vendor: true,
 }
