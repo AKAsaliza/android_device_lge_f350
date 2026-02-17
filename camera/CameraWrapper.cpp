@@ -261,6 +261,18 @@ static char *camera_fixup_setparams(int id, const char *settings)
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
 
+    const char* rec = params.get(android::CameraParameters::KEY_RECORDING_HINT);
+    videoMode = (rec && !strcmp(rec, "true"));
+
+    //flip preview 180
+    if (!videoMode) {
+        params.set("preview-flip", "flip-vh");
+        ALOGI("Photo mode: preview-flip=flip-vh");
+    } else {
+        params.set("preview-flip", "off");
+        ALOGI("Video mode: preview-flip=off");
+    }
+
 #ifdef LOG_NDEBUG
     ALOGV("%s: original parameters:", __FUNCTION__);
     params.dump();
@@ -338,11 +350,6 @@ static char *camera_fixup_setparams(int id, const char *settings)
     ALOGV("%s: fixed parameters:", __FUNCTION__);
     params.dump();
 #endif
-
-	const char *rotation = params.get("rotation");
-	if (!rotation || strcmp(rotation, "180") != 0) {
-    params.set("rotation", "180");
-}
 
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
@@ -841,7 +848,7 @@ static int camera_get_camera_info(int camera_id, struct camera_info *info)
      */
     ALOGI("Camera %d original orientation: %d", camera_id, info->orientation);
 
-    /*info->orientation = (info->orientation + 180) % 360;*/
+    info->orientation = (info->orientation + 180) % 360;
 
     ALOGI("Camera %d fixed orientation: %d", camera_id, info->orientation);
 
