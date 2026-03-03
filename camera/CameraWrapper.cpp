@@ -269,10 +269,10 @@ static char *camera_fixup_setparams(int id, const char *settings)
         params.set("preview-flip", "flip-vh");
         ALOGI("Photo mode: preview-flip=flip-vh");
     } else {
-        params.set("preview-flip", "off");
-        ALOGI("Video mode: preview-flip=off");
+        params.set("preview-flip", "flip-vh");
+        ALOGI("Video mode: preview-flip-vh");
     }
-
+	
 #ifdef LOG_NDEBUG
     ALOGV("%s: original parameters:", __FUNCTION__);
     params.dump();

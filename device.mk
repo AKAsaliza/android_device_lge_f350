@@ -95,7 +95,6 @@ PRODUCT_PACKAGES += \
     android.hardware.audio.service \
     android.hardware.audio@5.0-impl:32 \
     android.hardware.audio.effect@5.0-impl:32 \
-    audio.a2dp.default \
     audio.primary.msm8974 \
     audio.r_submix.default \
     audio.usb.default \
@@ -136,7 +135,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl-legacy \
     camera.device@1.0-impl-legacy \
-    Snap \
     camera.msm8974 \
     libshim_atomic \
     libshim_camera_parameters
@@ -152,7 +150,6 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.composer@2.1-service \
     android.hardware.memtrack@1.0-impl \
     android.hardware.memtrack@1.0-service \
-    copybit.msm8974 \
     gralloc.msm8974 \
     hwcomposer.msm8974 \
     memtrack.msm8974
@@ -196,11 +193,6 @@ PRODUCT_PACKAGES += \
     set_baseband.sh \
     ueventd.b1.rc
 
-# IPv6 tethering
-PRODUCT_PACKAGES += \
-    ebtables \
-    ethertypes
-
 # IRDA
 PRODUCT_PACKAGES += \
     android.hardware.ir@1.0-impl
@@ -229,8 +221,6 @@ PRODUCT_PACKAGES += \
 # OMX
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
-    libdivxdrmdecrypt \
-    libextmedia_jni \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
@@ -238,7 +228,6 @@ PRODUCT_PACKAGES += \
     libOmxQcelp13Enc \
     libOmxVdec \
     libOmxVenc \
-    libOmxVidcCommon \
     libstagefrighthw
 
 PRODUCT_COPY_FILES += \
@@ -274,10 +263,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     librecovery_updater_g2 \
     fastbootd
-	
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/etc/init.recovery.b1.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.b1.rc \
-    $(LOCAL_PATH)/rootdir/etc/init.b1.power.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.b1.power.rc
 
 # RenderScript HAL
 PRODUCT_PACKAGES += \
