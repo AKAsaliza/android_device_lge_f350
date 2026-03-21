@@ -1,6 +1,15 @@
 #
-# System Properties for G2
+# System Properties for G Pro 2
 #
+
+# Art
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dex2oat-cpu-set=0,1,2,3 \
+    dalvik.vm.dex2oat-threads=4 \
+    dalvik.vm.dex2oat-filter=speed \
+    dalvik.vm.dex2oat-swap=false \
+    dalvik.vm.madvise-random=true \
+    dalvik.vm.systemuicompilerfilter=speed
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -26,6 +35,27 @@ PRODUCT_PROPERTY_OVERRIDES += \
     bluetooth.chip.vendor=brcm \
     persist.service.bdroid.a2dp_con=0 \
     persist.service.bdroid.scms_t=0 \
+    bluetooth.core.le.vendor_capabilities.enabled=false \
+    bluetooth.enable_timeout_ms=12000 \
+    bluetooth.device.class_of_device=90,2,12 \
+    bluetooth.le.disable_apcf_extended_features=1 \
+    bluetooth.profile.a2dp.source.enabled?=true \
+    bluetooth.profile.asha.central.enabled?=false \
+    bluetooth.profile.avrcp.target.enabled?=true \
+    bluetooth.profile.bas.client.enabled?=true \
+    bluetooth.profile.gatt.enabled?=true \
+    bluetooth.profile.hfp.ag.enabled?=true \
+    bluetooth.profile.hid.device.enabled?=true \
+    bluetooth.profile.hid.host.enabled?=true \
+    bluetooth.profile.map.server.enabled?=true \
+    bluetooth.profile.opp.enabled?=true \
+    bluetooth.profile.pan.nap.enabled?=true \
+    bluetooth.profile.pan.panu.enabled?=true \
+    bluetooth.profile.pbap.server.enabled?=true \
+    bluetooth.profile.sap.server.enabled?=true \
+    persist.bluetooth.a2dp_offload.disabled=true \
+    persist.bluetooth.bluetooth_audio_hal.disabled=false \
+    ro.bluetooth.a2dp_offload.supported=false \
     ro.bt.bdaddr_path=/data/misc/bluetooth/bdaddr
 
 # Camera

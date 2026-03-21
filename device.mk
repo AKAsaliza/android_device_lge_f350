@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 $(call inherit-product-if-exists, vendor/lge/f350/f350-vendor.mk)
 
 # NFC
@@ -44,7 +43,6 @@ DEVICE_PACKAGE_OVERLAYS += \
 PRODUCT_ENFORCE_RRO_TARGETS := *
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += \
 	$(LOCAL_PATH)/overlay-lineage/lineage-sdk \
-	$(LOCAL_PATH)/overlay/packages/apps/Snap
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -110,7 +108,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/mixer_paths.xml:system/vendor/etc/mixer_paths.xml
 
 PRODUCT_COPY_FILES += \
-    frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:system/vendor/etc/a2dp_audio_policy_configuration.xml \
+    frameworks/av/services/audiopolicy/config/bluetooth_audio_policy_configuration.xml:system/vendor/etc/bluetooth_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/audio_policy_volumes.xml:system/vendor/etc/audio_policy_volumes.xml \
     frameworks/av/services/audiopolicy/config/default_volume_tables.xml:system/vendor/etc/default_volume_tables.xml \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:system/vendor/etc/r_submix_audio_policy_configuration.xml \
@@ -118,6 +116,8 @@ PRODUCT_COPY_FILES += \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
+    audio.bluetooth.default \
+    android.hardware.bluetooth.audio@2.0-impl \
     hwaddrs \
     libbt-vendor \
     android.hardware.bluetooth@1.0-impl \
@@ -134,7 +134,7 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl-legacy \
-    camera.device@1.0-impl-legacy \
+    camera.device@3.2-impl \
     camera.msm8974 \
     libshim_atomic \
     libshim_camera_parameters
@@ -153,6 +153,13 @@ PRODUCT_PACKAGES += \
     gralloc.msm8974 \
     hwcomposer.msm8974 \
     memtrack.msm8974
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    debug.sf.disable_backpressure=1 \
+    persist.sys.sf.color_saturation=1.0 \
+    persist.sys.sf.disable_blurs=1 \
+    ro.sf.blurs_are_expensive=1 \
+    ro.launcher.blur.appLaunch=0
 
 # DRM
 PRODUCT_PACKAGES += \
@@ -178,8 +185,8 @@ PRODUCT_COPY_FILES += \
 
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.0-impl-default \
-    android.hardware.health@2.0-service
+    android.hardware.health@2.1-impl \
+    android.hardware.health@2.1-service
 
 # HIDL
 PRODUCT_ENFORCE_VINTF_MANIFEST_OVERRIDE := true

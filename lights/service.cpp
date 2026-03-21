@@ -35,6 +35,12 @@ using android::hardware::light::V2_0::implementation::Light;
 const static std::string kBacklightPath = "/sys/class/leds/lcd-backlight/brightness";
 const static std::string kPatternBlinkPath = "/sys/class/lg_rgb_led/use_patterns/blink_patterns";
 
+// Rear RGB
+const static std::string kRearRedPath = "/sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/brightness";
+const static std::string kRearGreenPath = "/sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/brightness";
+const static std::string kRearBluePath = "/sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/brightness";
+const static std::string kRearEnablePath = "/sys/devices/f9967000.i2c/i2c-0/0-0032/led_blink";
+
 int main() {
 #ifdef ARCH_ARM_32
     android::hardware::ProcessState::initWithMmapSize((size_t)(32768));
@@ -53,7 +59,16 @@ int main() {
         return -error;
     }
 
-    android::sp<ILight> service = new Light(std::move(backlight), std::move(blinkPattern));
+	std::ofstream rearRed(kRearRedPath);
+    std::ofstream rearGreen(kRearGreenPath);
+    std::ofstream rearBlue(kRearBluePath);
+    std::ofstream rearEnable(kRearEnablePath);
+
+
+    android::sp<ILight> service = new Light(
+        std::move(backlight), std::move(blinkPattern),
+        std::move(rearRed), std::move(rearGreen), 
+        std::move(rearBlue), std::move(rearEnable));
 
     configureRpcThreadpool(1, true);
 

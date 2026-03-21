@@ -18,6 +18,9 @@
 
 #include "Light.h"
 
+#include <thread>
+#include <chrono>
+
 #include <log/log.h>
 
 #define LCD_BRIGHTNESS_MIN 20 // Matches config_screenBrightnessSettingMinimum
@@ -52,9 +55,18 @@ namespace light {
 namespace V2_0 {
 namespace implementation {
 
-Light::Light(std::ofstream&& backlight, std::ofstream&& blinkPattern) :
-    mBacklight(std::move(backlight)),
-    mBlinkPattern(std::move(blinkPattern)) {
+Light::Light(std::ofstream&& backlight, std::ofstream&& blinkPattern,
+             std::ofstream&& rearRed,
+             std::ofstream&& rearGreen,
+             std::ofstream&& rearBlue,
+			 std::ofstream&& rearEnable) :
+    mBacklight(std::move(backlight)), 
+	mBlinkPattern(std::move(blinkPattern)),
+    mRearRed(std::move(rearRed)), 
+	mRearGreen(std::move(rearGreen)),
+    mRearBlue(std::move(rearBlue)), 
+	mRearEnable(std::move(rearEnable)),
+    mScreenOn(false) {	
     auto attnFn(std::bind(&Light::setAttentionLight, this, std::placeholders::_1));
     auto backlightFn(std::bind(&Light::setBacklight, this, std::placeholders::_1));
     auto batteryFn(std::bind(&Light::setBatteryLight, this, std::placeholders::_1));
@@ -93,26 +105,94 @@ void Light::setAttentionLight(const LightState& state) {
 void Light::setBacklight(const LightState& state) {
     std::lock_guard<std::mutex> lock(mLock);
     uint32_t brightness = rgbToBrightness(state);
-    brightness = applyGamma(brightness);
+
+	brightness = applyGamma(brightness);
+	bool wasScreenOn = mScreenOn;
+    mScreenOn = ((state.color & 0x00ffffff) > 0);
+    
+    if (!wasScreenOn && mScreenOn) {
+        if ((mBatteryState.color & 0x00ffffff) == 0) {
+            mBlinkPattern << "0x0,-1,-1" << std::endl;
+        }
+
+        // Rear RGB Screen ON CYAN
+        if (!mFadeActive) {
+            std::thread([this]() {
+                mFadeActive = true;
+				
+				int i = 255;
+                mRearEnable.clear(); mRearEnable << 1 << std::endl;
+                    mRearRed << 0 << std::endl;
+                    mRearGreen << i << std::endl; // Green
+                    mRearBlue << i << std::endl;  // Blue (G+B = Cyan)
+				std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+                for (int i = 255; i >= 0; i -= 15) {
+                    mRearRed.clear(); mRearGreen.clear(); mRearBlue.clear();
+                    mRearRed << 0 << std::endl;
+                    mRearGreen << i << std::endl; // Green
+                    mRearBlue << i << std::endl;  // Blue (G+B = Cyan)
+                    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+                }
+                
+                mFadeActive = false;
+
+                std::lock_guard<std::mutex> lck(mLock);
+                setRearBatteryLightLocked(mBatteryState); 
+            }).detach();
+        }
+    }
+	
+	else if (wasScreenOn && !mScreenOn) {
+        setRearBatteryLightLocked(mBatteryState);
+    }
 	
     // Prevent backlight from being turned off completely
-    if(brightness == 0) {
+    if(brightness == 0 && mScreenOn) {
         brightness = LCD_BRIGHTNESS_MIN;
     }
 	
-    mBacklight << brightness << std::endl;
+   mBacklight << brightness << std::endl;
+
 }
 
 void Light::setBatteryLight(const LightState& state) {
     std::lock_guard<std::mutex> lock(mLock);
     mBatteryState = state;
     setSpeakerBatteryLightLocked();
+	setRearBatteryLightLocked(state);
+}
+
+void Light::setRearBatteryLightLocked(const LightState& state) {
+    if (mFadeActive || mScreenOn || isLit(mNotificationState)) {
+		mRearRed.clear(); mRearRed << 0 << std::endl;
+        mRearGreen.clear(); mRearGreen << 0 << std::endl;
+        mRearBlue.clear(); mRearBlue << 0 << std::endl;
+        mRearEnable.clear(); mRearEnable << 0 << std::endl;
+        return;
+    }
+
+    uint32_t color = state.color & 0x00ffffff;
+    mRearEnable.clear(); 
+    
+    if (color > 0) {
+        mRearEnable << 1 << std::endl; 
+        mRearRed.clear(); mRearRed << ((color >> 16) & 0xFF) << std::endl;
+        mRearGreen.clear(); mRearGreen << ((color >> 8) & 0xFF) << std::endl;
+        mRearBlue.clear(); mRearBlue << (color & 0xFF) << std::endl;
+    } else {
+        mRearRed << 0 << std::endl;
+        mRearGreen << 0 << std::endl;
+        mRearBlue << 0 << std::endl;
+        mRearEnable << 0 << std::endl;
+    }
 }
 
 void Light::setNotificationLight(const LightState& state) {
     std::lock_guard<std::mutex> lock(mLock);
     mNotificationState = state;
     setSpeakerBatteryLightLocked();
+	setRearNotificationLightLocked(state);
 }
 
 void Light::setSpeakerBatteryLightLocked() {
@@ -152,6 +232,38 @@ void Light::setSpeakerLightLocked(const LightState& state) {
 
     sprintf(blink_pattern, "0x%x,%d,%d", color, onMS, offMS);
     mBlinkPattern << blink_pattern << std::endl;
+}
+
+void Light::setRearNotificationLightLocked(const LightState& state) {
+
+    uint32_t color = state.color & 0x00ffffff;
+
+    if (color > 0 && !mScreenOn) {
+        static bool isNotificationBlinking = false;
+        if (isNotificationBlinking) return;
+
+        std::thread([this, color]() {
+            while (isLit(mNotificationState) && !mScreenOn) {
+                mRearEnable.clear(); mRearEnable << 1 << std::endl;
+                mRearRed.clear(); mRearRed << ((color >> 16) & 0xFF) << std::endl;
+                mRearGreen.clear(); mRearGreen << ((color >> 8) & 0xFF) << std::endl;
+                mRearBlue.clear(); mRearBlue << (color & 0xFF) << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // 1초 켬
+
+                mRearRed.clear(); mRearRed << 0 << std::endl;
+                mRearGreen.clear(); mRearGreen << 0 << std::endl;
+                mRearBlue.clear(); mRearBlue << 0 << std::endl;
+                mRearEnable.clear(); mRearEnable << 0 << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // 1초 끔
+            }
+        }).detach();
+    } else {
+        mRearRed.clear(); mRearRed << 0 << std::endl;
+        mRearGreen.clear(); mRearGreen << 0 << std::endl;
+        mRearBlue.clear(); mRearBlue << 0 << std::endl;
+        mRearEnable.clear(); mRearEnable << 0 << std::endl;
+        setRearBatteryLightLocked(mBatteryState);
+    }
 }
 
 }  // namespace implementation

@@ -19,6 +19,7 @@
 
 #include <android/hardware/light/2.0/ILight.h>
 #include <hidl/Status.h>
+#include <atomic>
 
 #include <fstream>
 #include <mutex>
@@ -31,7 +32,11 @@ namespace V2_0 {
 namespace implementation {
 
 struct Light : public ILight {
-    Light(std::ofstream&& backlight, std::ofstream&& blinkPattern);
+    Light(std::ofstream&& backlight, std::ofstream&& blinkPattern,
+	std::ofstream&& rearRed,
+	std::ofstream&& rearGreen, 
+    std::ofstream&& rearBlue,
+	std::ofstream&& rearEnable);
 
     // Methods from ::android::hardware::light::V2_0::ILight follow.
     Return<Status> setLight(Type type, const LightState& state)  override;
@@ -44,9 +49,19 @@ private:
     void setNotificationLight(const LightState& state);
     void setSpeakerBatteryLightLocked();
     void setSpeakerLightLocked(const LightState& state);
+	void setRearBatteryLightLocked(const LightState& state);
+	void setRearNotificationLightLocked(const LightState& state);
 
     std::ofstream mBacklight;
     std::ofstream mBlinkPattern;
+	
+	std::ofstream mRearRed;
+    std::ofstream mRearGreen;
+    std::ofstream mRearBlue;
+    std::ofstream mRearEnable;
+	
+	bool mScreenOn;
+    std::atomic<bool> mFadeActive{false};
 
     LightState mAttentionState;
     LightState mBatteryState;

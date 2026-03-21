@@ -8,7 +8,13 @@ on early-boot
     chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/onoff_patterns
     chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/setting
     chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/setting
-
+	chown system system /sys/class/leds/R/brightness
+    chmod 0644 /sys/class/leds/R/brightness
+	chown system system /sys/class/leds/G/brightness
+    chmod 0644 /sys/class/leds/G/brightness
+	chown system system /sys/class/leds/B/brightness
+    chmod 0644 /sys/class/leds/B/brightness
+	
     # lp5521
     chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_current_index
     chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_pattern
