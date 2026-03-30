@@ -21,4 +21,4 @@ Front Camera | 2.1 MP
 Release Date | february 2014
 
 
-![LG G Pro 2](https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/LG_G_Pro_2_%28White%29.jpg/270px-LG_G_Pro_2_%28White%29.jpg "LG G Pro 2")
+<img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/LG_G_Pro_2_%28White%29.jpg"  width="381" height="679"/>
