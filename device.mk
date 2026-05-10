@@ -91,8 +91,8 @@ PRODUCT_COPY_FILES += \
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio.service \
-    android.hardware.audio@5.0-impl:32 \
-    android.hardware.audio.effect@5.0-impl:32 \
+    android.hardware.audio@7.1-impl:32 \
+    android.hardware.audio.effect@7.0-impl:32 \
     audio.primary.msm8974 \
     audio.r_submix.default \
     audio.usb.default \
@@ -137,7 +137,8 @@ PRODUCT_PACKAGES += \
     camera.device@3.2-impl \
     camera.msm8974 \
     libshim_atomic \
-    libshim_camera_parameters
+    libshim_camera_parameters \
+	Aperture
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
@@ -212,6 +213,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@3.0-impl \
     android.hardware.keymaster@3.0-service
+
+# ConfigStore
+PRODUCT_PACKAGES += \
+    disable_configstore
 
 # Lights
 PRODUCT_PACKAGES += \

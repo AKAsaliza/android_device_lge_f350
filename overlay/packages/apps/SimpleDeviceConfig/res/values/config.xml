@@ -18,8 +18,5 @@
 		
         <!-- Allow more cached apps in the background -->
         <item>activity_manager/max_cached_processes=32</item>
-
-        <!-- Allow more cached apps in the background -->
-        <item>activity_manager/max_cached_processes=32</item>
     </string-array>
 </resources>
